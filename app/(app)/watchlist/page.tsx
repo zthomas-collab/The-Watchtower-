@@ -72,7 +72,7 @@ export default function WatchlistPage() {
           const enriched = wItems.map((item) => ({
             ...item,
             market: {
-              ...(item.market as Record<string, unknown>),
+              ...(item.market as unknown as Record<string, unknown>),
               ...(summaryMap.get(item.geography_id) || {}),
             },
           })) as WatchlistItem[]

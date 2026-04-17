@@ -16,7 +16,7 @@ interface Props {
   }
 }
 
-const PRESETS = [
+const PRESETS: { label: string; icon: string; params: Record<string, string> }[] = [
   {
     label: 'High Growth',
     icon: '🚀',

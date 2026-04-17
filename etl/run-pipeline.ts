@@ -84,6 +84,21 @@ async function main() {
         console.log(`[FRED] Got ${mortgage.length} mortgage rate points, ${starts.length} housing start points`)
         return { success: true, records: mortgage.length + starts.length }
       }))
+      await sleep(2000)
+    }
+
+    // Step 5: HUD FMR — county rent baselines
+    if (!sourceFilter || sourceFilter === 'hud') {
+      const { runHUDETL } = await import('./sources/hud')
+      results.push(await runStep('HUD FMR', runHUDETL))
+      await sleep(2000)
+    }
+
+    // Step 6: FHFA HPI — housing price index fallback
+    if (!sourceFilter || sourceFilter === 'fhfa') {
+      const { runFHFAETL } = await import('./sources/fhfa')
+      results.push(await runStep('FHFA HPI', runFHFAETL))
+      await sleep(2000)
     }
   }
 

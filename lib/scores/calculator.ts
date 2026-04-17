@@ -67,7 +67,7 @@ function computeScore(
   let totalWeight = 0
 
   for (const [key, config] of Object.entries(weights)) {
-    const rawValue = (data as Record<string, number | null | undefined>)[key] ?? null
+    const rawValue = (data as unknown as Record<string, number | null | undefined>)[key] ?? null
     const available = rawValue !== null && rawValue !== undefined && !isNaN(rawValue as number)
 
     let normalizedValue = 50
@@ -75,7 +75,7 @@ function computeScore(
     if (available) {
       const value = rawValue as number
       const allValues = allData
-        .map((d) => (d as Record<string, number | null | undefined>)[key])
+        .map((d) => (d as unknown as Record<string, number | null | undefined>)[key])
         .filter((v): v is number => v !== null && v !== undefined && !isNaN(v as number))
 
       if (config.normalize === 'percentile') {
@@ -169,7 +169,7 @@ export function batchCalculateScores(
   }
 
   const results: Array<Omit<ScoreOutput, 'id' | 'created_at'>> = []
-  for (const [, groupData] of byGeoType) {
+  for (const [, groupData] of Array.from(byGeoType)) {
     for (const d of groupData) {
       results.push(calculateAllScores(d, groupData))
     }

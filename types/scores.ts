@@ -9,6 +9,8 @@ export interface ScoreOutput {
   investor_score: number
   score_version: string
   factor_breakdown: ScoreFactorBreakdown
+  price_to_income_ratio?: number | null
+  rent_to_income_ratio?: number | null
 }
 
 export interface ScoreFactorBreakdown {
@@ -63,6 +65,19 @@ export const SCORE_DESCRIPTIONS: Record<ScoreType, string> = {
   migration: 'Attractiveness to net population inflow',
   affordability: 'Housing value relative to local incomes',
   investor: 'Combined signal for investment return potential',
+}
+
+/** Alias used throughout the UI for consistency */
+export function getScoreColorHex(score: number | null, invertForRisk = false): string {
+  if (score === null) return '#94A3B8'
+  if (invertForRisk) {
+    if (score >= 70) return '#EF4444'
+    if (score >= 45) return '#F59E0B'
+    return '#10B981'
+  }
+  if (score >= 70) return '#10B981'
+  if (score >= 45) return '#F59E0B'
+  return '#EF4444'
 }
 
 export function getScoreColor(score: number, type: ScoreType): string {

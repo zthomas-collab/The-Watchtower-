@@ -1,5 +1,5 @@
 import type { ScoreFactorBreakdown, ScoreType } from '@/types/scores'
-import { SCORE_LABELS, getScoreColorHex } from '@/types/scores'
+import { SCORE_LABELS } from '@/types/scores'
 import { formatPercent } from '@/lib/utils'
 
 interface Props {
