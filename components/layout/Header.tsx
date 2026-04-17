@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Search, X } from 'lucide-react'
+import { Search, X, LogOut, User } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 interface SearchResult {
   id: string
@@ -17,8 +18,23 @@ export default function Header() {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<SearchResult[]>([])
   const [open, setOpen] = useState(false)
+  const [user, setUser] = useState<SupabaseUser | null>(null)
   const router = useRouter()
   const supabase = createClient()
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUser(data.user))
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+      setUser(session?.user ?? null)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
+
+  async function handleSignOut() {
+    await supabase.auth.signOut()
+    router.push('/')
+    router.refresh()
+  }
 
   async function handleSearch(q: string) {
     setQuery(q)
@@ -99,18 +115,39 @@ export default function Header() {
         <span className="text-xs text-wt-muted hidden md:block">
           All data updated monthly
         </span>
-        <Link
-          href="/auth/login"
-          className="text-xs text-wt-muted hover:text-white transition-colors"
-        >
-          Sign In
-        </Link>
-        <Link
-          href="/auth/signup"
-          className="text-xs bg-wt-accent text-wt-bg font-semibold px-3 py-1.5 hover:bg-cyan-400 transition-colors"
-        >
-          Sign Up Free
-        </Link>
+        {user ? (
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 text-xs text-wt-muted">
+              <User className="w-3.5 h-3.5" />
+              <span className="hidden md:block max-w-[120px] truncate">
+                {user.user_metadata?.full_name || user.email}
+              </span>
+            </div>
+            <button
+              onClick={handleSignOut}
+              className="flex items-center gap-1.5 text-xs text-wt-muted hover:text-wt-red transition-colors"
+              title="Sign out"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden md:block">Sign out</span>
+            </button>
+          </div>
+        ) : (
+          <>
+            <Link
+              href="/auth/login"
+              className="text-xs text-wt-muted hover:text-white transition-colors"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/auth/signup"
+              className="text-xs bg-wt-accent text-wt-bg font-semibold px-3 py-1.5 hover:bg-cyan-400 transition-colors"
+            >
+              Sign Up Free
+            </Link>
+          </>
+        )}
       </div>
     </header>
   )
