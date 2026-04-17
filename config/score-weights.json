@@ -1,0 +1,207 @@
+{
+  "version": "1.0",
+  "_note": "Weights must sum to 1.0 per score. direction: positive = higher is better. normalize: percentile = rank 0-100 across all same geo_type markets.",
+  "strength": {
+    "population_growth_pct": {
+      "weight": 0.15,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Population Growth"
+    },
+    "net_migration_rate": {
+      "weight": 0.15,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Net Migration Rate"
+    },
+    "job_growth_pct": {
+      "weight": 0.15,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Job Growth"
+    },
+    "income_growth_pct": {
+      "weight": 0.10,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Income Growth"
+    },
+    "unemployment_rate": {
+      "weight": 0.10,
+      "direction": "negative",
+      "normalize": "percentile",
+      "label": "Unemployment Rate"
+    },
+    "median_list_price_yoy_pct": {
+      "weight": 0.10,
+      "direction": "positive",
+      "normalize": "percentile",
+      "cap": 0.20,
+      "label": "Home Price Appreciation"
+    },
+    "days_on_market": {
+      "weight": 0.10,
+      "direction": "negative",
+      "normalize": "percentile",
+      "label": "Days on Market"
+    },
+    "months_of_supply": {
+      "weight": 0.15,
+      "direction": "negative",
+      "normalize": "percentile",
+      "label": "Months of Supply"
+    }
+  },
+  "risk": {
+    "unemployment_change_yoy": {
+      "weight": 0.20,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Unemployment Change YoY"
+    },
+    "population_growth_pct": {
+      "weight": 0.15,
+      "direction": "negative",
+      "normalize": "percentile",
+      "label": "Population Decline"
+    },
+    "net_migration_rate": {
+      "weight": 0.15,
+      "direction": "negative",
+      "normalize": "percentile",
+      "label": "Net Out-Migration"
+    },
+    "price_to_income_ratio": {
+      "weight": 0.15,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Price-to-Income Ratio"
+    },
+    "inventory_change_yoy_pct": {
+      "weight": 0.10,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Inventory Spike"
+    },
+    "price_reductions_pct": {
+      "weight": 0.10,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Price Reductions"
+    },
+    "days_on_market_change_yoy": {
+      "weight": 0.10,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "DOM Increase YoY"
+    },
+    "income_growth_pct": {
+      "weight": 0.05,
+      "direction": "negative",
+      "normalize": "percentile",
+      "label": "Wage Stagnation"
+    }
+  },
+  "migration": {
+    "net_migration_rate": {
+      "weight": 0.35,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Net Migration Rate"
+    },
+    "migration_momentum_3yr": {
+      "weight": 0.25,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Migration Momentum (3yr)"
+    },
+    "inbound_outbound_ratio": {
+      "weight": 0.20,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Inbound/Outbound Ratio"
+    },
+    "migration_vs_national_avg": {
+      "weight": 0.20,
+      "direction": "positive",
+      "normalize": "zscore",
+      "label": "Migration vs. National Avg"
+    }
+  },
+  "affordability": {
+    "price_to_income_ratio": {
+      "weight": 0.30,
+      "direction": "negative",
+      "normalize": "percentile",
+      "label": "Price-to-Income Ratio"
+    },
+    "rent_to_income_ratio": {
+      "weight": 0.25,
+      "direction": "negative",
+      "normalize": "percentile",
+      "label": "Rent-to-Income Ratio"
+    },
+    "price_vs_national_median_pct": {
+      "weight": 0.20,
+      "direction": "negative",
+      "normalize": "percentile",
+      "label": "Price vs. National Median"
+    },
+    "rent_growth_vs_wage_growth": {
+      "weight": 0.15,
+      "direction": "negative",
+      "normalize": "percentile",
+      "label": "Rent Growth vs. Wage Growth"
+    },
+    "months_of_supply": {
+      "weight": 0.10,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Supply Level"
+    }
+  },
+  "investor": {
+    "strength_score": {
+      "weight": 0.20,
+      "direction": "positive",
+      "normalize": "direct",
+      "label": "Market Strength"
+    },
+    "affordability_score": {
+      "weight": 0.15,
+      "direction": "positive",
+      "normalize": "direct",
+      "label": "Affordability"
+    },
+    "migration_score": {
+      "weight": 0.15,
+      "direction": "positive",
+      "normalize": "direct",
+      "label": "Migration Momentum"
+    },
+    "rent_yield_estimate": {
+      "weight": 0.20,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Rent Yield Estimate"
+    },
+    "job_growth_pct": {
+      "weight": 0.10,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Job Growth"
+    },
+    "median_list_price_yoy_pct": {
+      "weight": 0.10,
+      "direction": "positive",
+      "normalize": "percentile",
+      "label": "Price Appreciation Momentum"
+    },
+    "risk_score": {
+      "weight": 0.10,
+      "direction": "negative",
+      "normalize": "direct",
+      "label": "Market Risk"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+name: ETL On-Demand
+
+on:
+  workflow_dispatch:
+    inputs:
+      source:
+        description: 'Data source to run'
+        required: true
+        type: choice
+        options:
+          - all
+          - census
+          - bls
+          - redfin
+          - fred
+          - scores_only
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        default: production
+        options:
+          - production
+          - staging
+
+jobs:
+  etl-on-demand:
+    name: ETL On-Demand (${{ inputs.source }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+
+      - name: Run selected ETL
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          CENSUS_API_KEY: ${{ secrets.CENSUS_API_KEY }}
+          BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          INTERNAL_API_SECRET: ${{ secrets.INTERNAL_API_SECRET }}
+          NEXT_PUBLIC_APP_URL: ${{ secrets.NEXT_PUBLIC_APP_URL }}
+        run: |
+          if [ "${{ inputs.source }}" = "all" ]; then
+            npx tsx etl/run-pipeline.ts
+          elif [ "${{ inputs.source }}" = "scores_only" ]; then
+            npx tsx etl/run-pipeline.ts --scores-only
+          else
+            npx tsx etl/run-pipeline.ts --source=${{ inputs.source }}
+          fi
