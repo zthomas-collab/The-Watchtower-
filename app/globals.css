@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 20% 5%;
+    --foreground: 210 40% 98%;
+    --card: 222 20% 8%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 20% 8%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 192 91% 56%;
+    --primary-foreground: 222 47% 5%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 192 91% 56%;
+    --accent-foreground: 222 47% 5%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217 33% 12%;
+    --input: 217 33% 12%;
+    --ring: 192 91% 56%;
+    --radius: 0.25rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-wt-bg text-white font-sans antialiased;
+  }
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-wt-bg;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-wt-border rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-wt-muted;
+  }
+}
+
+@layer utilities {
+  .wt-card {
+    @apply bg-wt-surface border border-wt-border;
+  }
+  .wt-metric-up {
+    @apply text-wt-green;
+  }
+  .wt-metric-down {
+    @apply text-wt-red;
+  }
+  .wt-metric-neutral {
+    @apply text-wt-muted;
+  }
+  .wt-label {
+    @apply text-xs font-medium uppercase tracking-wider text-wt-muted;
+  }
+  .wt-value {
+    @apply text-2xl font-bold text-white tabular-nums;
+  }
+  .wt-delta {
+    @apply text-xs font-medium tabular-nums;
+  }
+}
+
+/* Mapbox overrides */
+.mapboxgl-popup-content {
+  background: #13151A !important;
+  border: 1px solid #1E2028 !important;
+  border-radius: 2px !important;
+  padding: 0 !important;
+}
+.mapboxgl-popup-tip {
+  display: none !important;
+}
+.mapboxgl-ctrl-group {
+  background: #13151A !important;
+  border: 1px solid #1E2028 !important;
+}
+.mapboxgl-ctrl-group button {
+  background: #13151A !important;
+  color: #94A3B8 !important;
+}
+.mapboxgl-ctrl-group button:hover {
+  background: #1E2028 !important;
+}
+
+/* Score ring animation */
+@keyframes score-fill {
+  from { stroke-dasharray: 0 100; }
+}
+.score-ring-circle {
+  animation: score-fill 1s ease-out forwards;
+}
